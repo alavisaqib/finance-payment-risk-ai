@@ -1,0 +1,81 @@
+{
+  "project": "Payment risk investigation desk",
+  "facts": {
+    "minimum_action": "escalate",
+    "summary": "Investigation risk score 70.9%; 18 transactions in the last hour.",
+    "signals": {
+      "risk_probability": 0.709,
+      "transactions_last_hour": 18,
+      "account_age_days": 3
+    },
+    "next_steps": [
+      "Corroborate velocity and location with source transaction evidence.",
+      "Have the payment-risk analyst review the case; no payment or account action is executed."
+    ]
+  },
+  "advice": {
+    "action": "escalate",
+    "rationale": "Investigation risk score 70.9%; 18 transactions in the last hour.",
+    "citations": [
+      "velocity:3",
+      "dataquality:3"
+    ],
+    "next_steps": [
+      "Corroborate velocity and location with source transaction evidence.",
+      "Have the payment-risk analyst review the case; no payment or account action is executed."
+    ]
+  },
+  "guardrail_override": false,
+  "evidence": [
+    {
+      "id": "velocity:3",
+      "source": "velocity.md",
+      "text": "In this fictional rule set, at least 5 transactions in one hour requires review. At least 15 requires escalation. At least 5 transactions combined with an account younger than 7 days also requires escalation. A signal is a reason for investigation, never proof of fraud.",
+      "sha256": "41931e978554556ca19ef1c2697ab8444292d7002d48b7f0ede47e8b3daa2a8a",
+      "score": 0.24596
+    },
+    {
+      "id": "dataquality:3",
+      "source": "dataquality.md",
+      "text": "Reject missing, extra, nonfinite and out-of-range input fields. Keep test data synthetic. The demonstration model has not been validated for live operations. Changing data, model code or policy content invalidates the local response cache and requires a new evaluation.",
+      "sha256": "b13ff0681070292b3b173d8b237aa9938280e05e252539f3ddb642e4ff8c47b8",
+      "score": 0.1042
+    },
+    {
+      "id": "review:3",
+      "source": "review.md",
+      "text": "Escalations belong to the authorized payment-risk team. Analysts review legitimate customer explanations and existing case context. This tool does not block accounts, decline payments or contact customers. Real deployment requires outcome validation, drift monitoring and subgroup error analysis.",
+      "sha256": "96fe86e2c24f775cc89d5cdc88becc4c7391856dba8dc6d80ad63e1c14a0c581",
+      "score": 0.0942
+    }
+  ],
+  "usage": {
+    "provider": "demo",
+    "model": "deterministic-evidence-template",
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "prompt_budget_units": 2924
+  },
+  "optimization": {
+    "naive_prompt_units": 4128,
+    "packed_prompt_units": 2924,
+    "reduction_pct": 29.2,
+    "measurement": "UTF-8 text byte upper bound plus framing; not billed tokens"
+  },
+  "corpus_version": "7948f1ecec00a4789f75c88200ed3a914efd7282f59c8971c5f35ddae09945fe",
+  "code_version": "2511b84584939a9e3a6bd24d798a29069d122485aff47e7ee902d76cef56dc3c",
+  "features": {
+    "amount_usd": 5000.0,
+    "transactions_1h": 18.0,
+    "account_age_days": 3.0,
+    "distance_km": 2000.0
+  },
+  "human_review_required": true,
+  "run_id": "92ce0608-a43d-402e-a6a6-a14032020f38",
+  "cache_hit": true,
+  "current_request_tokens": {
+    "input": 0,
+    "output": 0
+  },
+  "latency_ms": 4.27
+}

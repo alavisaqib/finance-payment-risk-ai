@@ -1,0 +1,92 @@
+{
+  "slug": "finance-payment-risk-ai",
+  "title": "Payment risk investigation desk",
+  "domain": "Finance",
+  "problem": "Payment operations teams face high alert volumes and fragmented policy context. Analysts need consistent triage signals and cited reasons to prioritize investigation without treating a model score as proof of fraud.",
+  "solution": "Payment-risk triage with logistic regression, held-out precision metrics, grounded LLM decisions, bounded RAG prompts, audit storage, MCP and Docker.",
+  "description": "Payment-risk triage with logistic regression, held-out precision metrics, grounded LLM decisions, bounded RAG prompts, audit storage, MCP and Docker.",
+  "task": "classification",
+  "target": "synthetic suspicious-payment label",
+  "target_units": "probability",
+  "fields": [
+    {
+      "name": "amount_usd",
+      "label": "Payment amount (USD)",
+      "min": 1,
+      "max": 100000,
+      "integer": false
+    },
+    {
+      "name": "transactions_1h",
+      "label": "Transactions in last hour",
+      "min": 1,
+      "max": 100,
+      "integer": true
+    },
+    {
+      "name": "account_age_days",
+      "label": "Account age (days)",
+      "min": 0,
+      "max": 5000,
+      "integer": true
+    },
+    {
+      "name": "distance_km",
+      "label": "Distance from usual location (km)",
+      "min": 0,
+      "max": 20000,
+      "integer": false
+    }
+  ],
+  "model_features": [
+    "amount_usd",
+    "transactions_1h",
+    "account_age_days",
+    "distance_km"
+  ],
+  "retrieval_query": "payment fraud velocity new account investigation",
+  "scenarios": [
+    {
+      "name": "Routine activity",
+      "features": {
+        "amount_usd": 50,
+        "transactions_1h": 1,
+        "account_age_days": 800,
+        "distance_km": 5
+      },
+      "expected_action": "monitor"
+    },
+    {
+      "name": "Velocity review",
+      "features": {
+        "amount_usd": 300,
+        "transactions_1h": 6,
+        "account_age_days": 300,
+        "distance_km": 25
+      },
+      "expected_action": "review"
+    },
+    {
+      "name": "High velocity new account",
+      "features": {
+        "amount_usd": 5000,
+        "transactions_1h": 18,
+        "account_age_days": 3,
+        "distance_km": 2000
+      },
+      "expected_action": "escalate"
+    }
+  ],
+  "data_formula": "Labels come from a noisy logistic function of amount, velocity, account age and location distance. No customer data, protected attributes or genuine fraud outcomes are included.",
+  "accent": "#364f9b",
+  "topics": [
+    "ai-engineering",
+    "data-science",
+    "rag",
+    "llm",
+    "mcp",
+    "fastapi",
+    "docker",
+    "fintech"
+  ]
+}

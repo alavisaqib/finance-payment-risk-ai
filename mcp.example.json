@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "operations-portfolio": {
+      "command": "/absolute/path/to/project/.venv/bin/python",
+      "args": ["-m", "app.mcp_server"],
+      "cwd": "/absolute/path/to/project",
+      "env": { "LLM_PROVIDER": "demo" }
+    }
+  }
+}

@@ -1,0 +1,39 @@
+name: CI
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: pip
+      - run: python -m pip install -r requirements.txt
+      - name: Reproduce data, evaluate, and test
+        run: |
+          python -m scripts.generate_data
+          git diff --exit-code -- data/training.csv
+          python -m scripts.evaluate
+          python -m pytest -q
+      - name: Build and smoke-test container
+        run: |
+          docker build -t operations-portfolio .
+          docker run -d --name operations-test -p 127.0.0.1:8000:8000 operations-portfolio
+          trap 'docker logs operations-test; docker rm -f operations-test' EXIT
+          ready=0
+          for attempt in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:8000/health; then ready=1; break; fi
+            sleep 2
+          done
+          test "$ready" = 1
+          curl -fsS -X POST http://127.0.0.1:8000/api/decisions -H 'Content-Type: application/json' --data-binary @examples/request.json > /tmp/decision.json
+          python -c "import json; d=json.load(open('/tmp/decision.json')); assert d['human_review_required'] and d['evidence']"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: evaluation
+          path: reports/evaluation.json

@@ -1,0 +1,8 @@
+{
+  "features": {
+    "amount_usd": 5000,
+    "transactions_1h": 18,
+    "account_age_days": 3,
+    "distance_km": 2000
+  }
+}

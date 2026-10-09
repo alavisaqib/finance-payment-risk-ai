@@ -1,0 +1,57 @@
+{
+  "model": {
+    "task": "classification",
+    "target": "synthetic suspicious-payment label",
+    "units": "probability",
+    "train_rows": 600,
+    "test_rows": 200,
+    "seed": 42,
+    "data": "synthetic; not evidence of real-world performance",
+    "roc_auc": 0.8658,
+    "average_precision": 0.6952,
+    "positive_prevalence": 0.235
+  },
+  "decision_scenarios": [
+    {
+      "scenario": "Routine activity",
+      "expected": "monitor",
+      "actual": "monitor",
+      "pass": true,
+      "prompt_reduction_pct": 29.2
+    },
+    {
+      "scenario": "Velocity review",
+      "expected": "review",
+      "actual": "review",
+      "pass": true,
+      "prompt_reduction_pct": 29.2
+    },
+    {
+      "scenario": "High velocity new account",
+      "expected": "escalate",
+      "actual": "escalate",
+      "pass": true,
+      "prompt_reduction_pct": 29.2
+    }
+  ],
+  "retrieval": [
+    {
+      "query": "Payment velocity investigation In this fictional rule set, at least 5 transactions in one hour requires review",
+      "expected_source": "velocity.md",
+      "hit_at_4": true
+    },
+    {
+      "query": "Location anomaly review Distance from a usual transaction location is approximate and can be misleading during travel or network routing changes",
+      "expected_source": "distance.md",
+      "hit_at_4": true
+    },
+    {
+      "query": "Payment risk human review Escalations belong to the authorized payment-risk team",
+      "expected_source": "review.md",
+      "hit_at_4": true
+    }
+  ],
+  "retrieval_hit_rate": 1.0,
+  "live_llm_tested": false,
+  "notes": "Synthetic demonstration metrics. No real-world accuracy, cost savings or production validation claimed."
+}

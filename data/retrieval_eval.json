@@ -1,0 +1,14 @@
+[
+  {
+    "query": "Payment velocity investigation In this fictional rule set, at least 5 transactions in one hour requires review",
+    "source": "velocity.md"
+  },
+  {
+    "query": "Location anomaly review Distance from a usual transaction location is approximate and can be misleading during travel or network routing changes",
+    "source": "distance.md"
+  },
+  {
+    "query": "Payment risk human review Escalations belong to the authorized payment-risk team",
+    "source": "review.md"
+  }
+]

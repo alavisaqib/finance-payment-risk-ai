@@ -1,0 +1,20 @@
+services:
+  api:
+    build: .
+    ports:
+      - "127.0.0.1:${PORT:-8000}:8000"
+    environment:
+      LLM_PROVIDER: ${LLM_PROVIDER:-demo}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-}
+      APP_API_KEY: ${APP_API_KEY:-}
+      STATE_DIR: /app/state
+    volumes:
+      - operations-state:/app/state
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+volumes:
+  operations-state:
